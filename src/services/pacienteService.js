@@ -1,6 +1,11 @@
 const Paciente = require('../models/Paciente');
 
+exports.listarPacientes = async () => {
+  return await Paciente.findAll();
+};
+
 exports.criarPaciente = async (dadosPaciente) => {
+
   return await Paciente.create(dadosPaciente);
 };
 

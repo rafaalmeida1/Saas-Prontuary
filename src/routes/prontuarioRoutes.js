@@ -4,7 +4,8 @@ const router = express.Router();
 
 // Rotas para Prontuário
 router.post('/', ProntuarioController.createProntuario);
-router.get('/:id', ProntuarioController.getProntuarioById);
+router.get('/:id', ProntuarioController.getProntuarioById); 
+router.get('/paciente/:id', ProntuarioController.getProntuarioByPatientId);
 router.put('/:id', ProntuarioController.updateProntuario);
 router.delete('/:id', ProntuarioController.deleteProntuario);
 

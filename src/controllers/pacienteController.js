@@ -9,6 +9,15 @@ exports.criarPaciente = async (req, res) => {
   }
 };
 
+exports.listarPacientes = async (req, res) => {
+  try {
+    const pacientes = await PacienteService.listarPacientes();
+    res.status(200).json(pacientes);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 exports.obterPaciente = async (req, res) => {
   try {
     const paciente = await PacienteService.obterPaciente(req.params.id);

@@ -5,7 +5,8 @@ class ProntuarioController {
   // Criar um prontuário para um paciente
   static async createProntuario(req, res) {
     try {
-      const prontuarioData = req.body;
+      const prontuarioData = req.body 
+
       const prontuario = await Prontuario.create(prontuarioData);
       return res.status(201).json(prontuario);
     } catch (error) {
@@ -24,6 +25,18 @@ class ProntuarioController {
     } catch (error) {
       console.error("Erro ao obter prontuário:", error);
       return res.status(500).json({ error: "Erro ao obter prontuário" });
+    }
+  }
+
+  static async getProntuarioByPatientId(req, res) {
+    try {
+      const { id } = req.params;
+      const prontuario = await Prontuario.findOne({ where: { paciente_id: id } });
+      if (!prontuario) return res.status(404).json({ error: "Prontuário não encontrado" });
+      return res.status(200).json(prontuario);
+    } catch (error) {
+      console.error("Erro ao obter prontuário:", error);
+      return res.status(500).json({ error: "Erro ao obter prontuario" });
     }
   }
 

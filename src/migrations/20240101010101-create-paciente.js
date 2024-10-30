@@ -15,7 +15,7 @@ module.exports = {
       raca: Sequelize.STRING,
       data_entrada_clinica: Sequelize.DATE,
       data_nascimento: Sequelize.DATE,
-      imagem_url: Sequelize.TEXT,
+      imagem_url: Sequelize.LONGTEXT,
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE,
     });
