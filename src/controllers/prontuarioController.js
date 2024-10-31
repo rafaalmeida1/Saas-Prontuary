@@ -57,6 +57,14 @@ class ProntuarioController {
   static async deleteProntuario(req, res) {
     try {
       const { id } = req.params;
+
+      // deletar acompanhamentos do prontuario
+
+      const acompanhamentos = await Acompanhamento.findAll({ where: { prontuario_id: id } });
+      if (acompanhamentos.length > 0) {
+        await Acompanhamento.destroy({ where: { prontuario_id: id } });
+      }
+
       const deleted = await Prontuario.destroy({ where: { id } });
       if (!deleted) return res.status(404).json({ error: "Prontuário não encontrado" });
       return res.status(200).json({ message: "Prontuário excluído com sucesso" });
