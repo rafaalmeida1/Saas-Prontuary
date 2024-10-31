@@ -5,8 +5,16 @@ const pacienteRoutes = require('./routes/pacienteRoutes');
 const authRoutes = require('./routes/authRoutes');
 const prontuarioRoutes = require('./routes/prontuarioRoutes');
 
+// allow all origins
+
+const corsOptions = {
+    origin: '*',
+    optionsSuccessStatus: 200,
+    methods: "GET, POST, PUT, DELETE"
+}
+
 app.use(express.json()); 
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use('/api/pacientes', pacienteRoutes);
 app.use('/api/auth', authRoutes); 
