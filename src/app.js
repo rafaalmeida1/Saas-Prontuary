@@ -13,7 +13,7 @@ const corsOptions = {
     methods: "GET, POST, PUT, DELETE"
 }
 
-app.use(express.json()); 
+app.use(express.json({ limit: '10mb' })); 
 app.use(cors(corsOptions));
 
 app.use('/api/pacientes', pacienteRoutes);
