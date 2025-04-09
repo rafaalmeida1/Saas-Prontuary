@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/server.js --watch"
+    "start": "node src/server.js --watch",
+    "seed": "sequelize-cli db:seed --seed src/seeders/user-seeder.js",
+    "seed:undo": "sequelize-cli db:seed:undo --seed src/seeders/user-seeder.js",
+    "create-user": "node src/scripts/create-default-user.js"
   },
   "keywords": [],
   "author": "",
@@ -17,5 +20,8 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.11.3",
     "sequelize": "^6.37.5"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.2"
   }
 }
