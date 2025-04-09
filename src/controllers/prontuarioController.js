@@ -1,5 +1,6 @@
 const Acompanhamento = require('../models/Acompanhamento');
 const Prontuario = require('../models/Prontuario');
+const { Op } = require('sequelize');
 
 class ProntuarioController {
   // Criar um prontuário para um paciente
@@ -138,6 +139,71 @@ class ProntuarioController {
     } catch (error) {
       console.error("Erro ao excluir acompanhamento:", error);
       return res.status(500).json({ error: "Erro ao excluir acompanhamento" });
+    }
+  }
+
+  // Get all prontuarios
+  static async getTodos(req, res) {
+    try {
+      const prontuarios = await Prontuario.findAll();
+      res.status(200).json(prontuarios);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+
+  // Get acompanhamento statistics
+  static async getAcompanhamentoStats(req, res) {
+    try {
+      // Count total acompanhamentos
+      const total = await Acompanhamento.count();
+      
+      // Get the latest acompanhamento date
+      const ultimoAcompanhamento = await Acompanhamento.findOne({
+        order: [['data', 'DESC']]
+      });
+      
+      const ultimaConsulta = ultimoAcompanhamento ? ultimoAcompanhamento.data : null;
+      
+      // Count acompanhamentos by month (last 6 months)
+      const porMes = {};
+      const hoje = new Date();
+      
+      // Initialize last 6 months with zero counts
+      for (let i = 0; i < 6; i++) {
+        const data = new Date(hoje);
+        data.setMonth(data.getMonth() - i);
+        const mesAno = data.toISOString().substring(0, 7); // Format: YYYY-MM
+        porMes[mesAno] = 0;
+      }
+      
+      // Get all acompanhamentos from last 6 months
+      const seisMesesAtras = new Date(hoje);
+      seisMesesAtras.setMonth(seisMesesAtras.getMonth() - 6);
+      
+      const acompanhamentosRecentes = await Acompanhamento.findAll({
+        where: {
+          data: {
+            [Op.gte]: seisMesesAtras.toISOString()
+          }
+        }
+      });
+      
+      // Count by month
+      acompanhamentosRecentes.forEach(acomp => {
+        const mesAno = acomp.data.substring(0, 7);
+        if (porMes[mesAno] !== undefined) {
+          porMes[mesAno]++;
+        }
+      });
+      
+      res.status(200).json({
+        total,
+        ultimaConsulta,
+        porMes
+      });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
     }
   }
 }
