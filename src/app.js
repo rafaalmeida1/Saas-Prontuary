@@ -9,7 +9,6 @@ const prontuarioRoutes = require('./routes/prontuarioRoutes');
 
 const corsOptions = {
     origin: '*',
-    optionsSuccessStatus: 200,
     methods: "GET, POST, PUT, DELETE"
 }
 
