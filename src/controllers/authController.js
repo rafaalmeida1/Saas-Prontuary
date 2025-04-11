@@ -34,6 +34,8 @@ exports.getProfile = async (req, res) => {
       role: usuario.role,
       createdAt: usuario.createdAt
     };
+
+    console.log(userProfile);
     
     res.status(200).json(userProfile);
   } catch (error) {
