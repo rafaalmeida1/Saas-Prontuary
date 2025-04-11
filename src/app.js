@@ -5,12 +5,12 @@ const pacienteRoutes = require('./routes/pacienteRoutes');
 const authRoutes = require('./routes/authRoutes');
 const prontuarioRoutes = require('./routes/prontuarioRoutes');
 
-// allow all origins
-
 const corsOptions = {
-    origin: '*',
-    optionsSuccessStatus: 200,
-    methods: "GET, POST, PUT, DELETE"
+    origin: process.env.FRONTEND_URL || 'https://prontuario-acompanhamento.vercel.app/', // Substitua pela URL do seu frontend
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+    optionsSuccessStatus: 200
 }
 
 app.use(express.json({ limit: '10mb' })); 
